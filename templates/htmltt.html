@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: #ff6666 dashed;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .message {
+            padding: 10px;
+            background-color: #e2e2e2;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: #333;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .message.warning {
+            background-color: #ffcc00;
+        }
+        .message.error {
+            background-color: #ff6666;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            fetch('/monitor', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Key Monitoring</h1>
+        {% if message %}
+        <div class="message error">{{ message|safe }}</div>
+        {% endif %}
+        {% if message2 %}
+        <div class="message warning">{{ message2|safe }}</div>
+        {% endif %}
+        {% if message3 %}
+        <div class="message">{{ message3|safe }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
